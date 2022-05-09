@@ -1,0 +1,6 @@
+waleedmagdy/wm-salesforce@main:
+  - source/service/packaged
+
+waleedmagdy/wm-salesforce-service@main:
+  - source: source/service/packaged
+    dest: source/service/packaged
