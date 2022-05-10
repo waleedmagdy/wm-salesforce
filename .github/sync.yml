@@ -1,6 +1,3 @@
-waleedmagdy/wm-salesforce@UAT:
-  - source/service/packaged
-
-waleedmagdy/wm-salesforce-service@main:
+waleedmagdy/wm-salesforce-service@UAT:
   - source: source/service/packaged
     dest: source/service/packaged
