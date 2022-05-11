@@ -1,3 +1,4 @@
-waleedmagdy/wm-salesforce-service:
+waleedmagdy/wm-salesforce-service@${{ github.ref_name }}:
   - source: source/service/packaged
     dest: source/service/packaged
+    
