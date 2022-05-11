@@ -11,7 +11,7 @@ env:
 
 jobs:
   sync-master:
-    if: ${{ github.ref_name }} == master
+    if: github.ref_name == master
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -24,7 +24,7 @@ jobs:
           PR_LABELS: |
             automerge
   sync-UAT:
-    if: ${{ github.ref_name }} == UAT
+    if: github.ref_name == UAT
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -37,7 +37,7 @@ jobs:
           PR_LABELS: |
             automerge
   sync-QA:
-    if: ${{ github.ref_name }} == QA
+    if: github.ref_name == QA
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
