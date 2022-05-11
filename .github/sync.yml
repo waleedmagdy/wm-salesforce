@@ -1,4 +1,4 @@
-waleedmagdy/wm-salesforce-service:
+waleedmagdy/wm-salesforce-service@$BRANCH_PREFIX:
   - source: source/service/packaged
     dest: source/service/packaged
     
