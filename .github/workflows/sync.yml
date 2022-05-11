@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 env:
   BRANCH: ${{ github.ref_name }}
+  LABEL: ${{ github.event.pull_request.labels.name }}
 
 jobs:
   sync-master:
