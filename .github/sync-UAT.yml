@@ -1,4 +1,4 @@
-waleedmagdy/wm-salesforce-service@master:
+waleedmagdy/wm-salesforce-service@UAT:
   - source: source/service/packaged
     dest: source/service/packaged
     

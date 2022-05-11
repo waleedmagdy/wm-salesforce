@@ -1,0 +1,4 @@
+waleedmagdy/wm-salesforce-service@QA:
+  - source: source/service/packaged
+    dest: source/service/packaged
+    
