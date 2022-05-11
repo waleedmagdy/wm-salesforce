@@ -6,8 +6,12 @@ on:
       - UAT
       - QA
   workflow_dispatch:
+env:
+  BRANCH: ${{ github.ref_name }}
+
 jobs:
-  sync:
+  sync-master:
+    if: ${{ github.ref_name }} == master
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -16,5 +20,32 @@ jobs:
         uses: BetaHuhn/repo-file-sync-action@v1
         with:
           GH_PAT: ${{ secrets.GH_PAT }}
+          CONFIG_PATH: .github/sync-master.yml
+          PR_LABELS: |
+            automerge
+  sync-UAT:
+    if: ${{ github.ref_name }} == UAT
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+      - name: Run GitHub File Sync
+        uses: BetaHuhn/repo-file-sync-action@v1
+        with:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          CONFIG_PATH: .github/sync-UAT.yml
+          PR_LABELS: |
+            automerge
+  sync-QA:
+    if: ${{ github.ref_name }} == QA
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+      - name: Run GitHub File Sync
+        uses: BetaHuhn/repo-file-sync-action@v1
+        with:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          CONFIG_PATH: .github/sync-QA.yml
           PR_LABELS: |
             automerge
