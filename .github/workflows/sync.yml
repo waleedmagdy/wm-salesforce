@@ -6,6 +6,9 @@ on:
       - UAT
       - QA
   workflow_dispatch:
+env:
+  BRANCH: ${{ github.ref_name }}
+
 jobs:
   sync:
     runs-on: ubuntu-latest
