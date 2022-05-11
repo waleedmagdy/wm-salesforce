@@ -1,1 +1,4 @@
-.github
+.github/
+.github/sync.yml
+/.github/
+/.github/sync.yml
