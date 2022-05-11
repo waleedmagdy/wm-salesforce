@@ -1,4 +1,3 @@
 waleedmagdy/wm-salesforce-service@master:
   - source: source/service/packaged
     dest: source/service/packaged
-    
