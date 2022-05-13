@@ -26,6 +26,8 @@ jobs:
         shell: bash
         run: |
           SHA=${{ github.event.label.name }}
+          echo "GITHUB_SHA = ${SHA}"
+
 
       - name: Checkout Repository
         uses: actions/checkout@master
