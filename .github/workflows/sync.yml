@@ -1,10 +1,10 @@
 name: Sync Files
 on:
-  push:
-    branches:
-      - master
-      - UAT
-      - QA
+  # push:
+  #   branches:
+  #     - master
+  #     - UAT
+  #     - QA
   
   pull_request:
     types: [ labeled ]
