@@ -7,12 +7,12 @@ on:
   #     - QA
   
   pull_request:
-    types: [ opened ]
+    types: [ labeled, opened ]
 
   workflow_dispatch:
 env:
   BRANCH: ${{ github.ref_name }}
-  LABEL: ${{ github.event.label.name }}
+  # LABEL: ${{ github.event.label.name }}
 
 jobs:
   sync-master:
