@@ -16,7 +16,10 @@ env:
 
 jobs:
   sync-master:
-    if: github.ref_name == 'master' && github.event.label.name != 'sync'
+    if: |
+      github.event.label.name != 'sync' && 
+      github.event.pull_request.base.ref == 'master'
+      
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
