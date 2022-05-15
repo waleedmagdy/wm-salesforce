@@ -7,7 +7,7 @@ on:
   #     - QA
   
   pull_request:
-    types: [ labeled, opened, unlabeled ]
+    types: [ labeled, opened, unlabeled, closed ]
 
   workflow_dispatch:
 env:
