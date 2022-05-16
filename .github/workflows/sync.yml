@@ -5,11 +5,9 @@ on:
   #     - master
   #     - UAT
   #     - QA
-  push: 
-    branches:
-      - master
+  
   pull_request:
-    types: [ labeled, unlabeled ]
+    types: [ labeled, opened ]
 
   workflow_dispatch:
 env:
@@ -17,11 +15,21 @@ env:
   # LABEL: ${{ github.event.label.name }}
 
 jobs:
-  sync-master:
+  PR-Label:
     # if: |
     #   github.event.label.name != 'sync' && 
     #   github.event.pull_request.base.ref == 'master'
-    if: github.ref_name == 'master' && github.event.label.name != 'nosync'  
+      
+    runs-on: ubuntu-latest
+    steps:
+      - name: Shell GIT env
+        shell: bash
+        run: |
+          SHA=${{ github.event.label.name }}
+          echo "GITHUB_SHA = ${SHA}"
+
+  sync-master:
+    if: github.ref_name == 'master' && github.event.label.name != 'sync'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -34,7 +42,7 @@ jobs:
           PR_LABELS: |
             automerge
   sync-UAT:
-    if: github.ref_name == 'UAT' && github.event.label.name != 'nosync'
+    if: github.ref_name == 'UAT' && github.event.label.name != 'sync'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -47,7 +55,7 @@ jobs:
           PR_LABELS: |
             automerge
   sync-QA:
-    if: github.ref_name == 'QA' && github.event.label.name != 'nosync'
+    if: github.ref_name == 'QA' && github.event.label.name != 'sync'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
