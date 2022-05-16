@@ -19,16 +19,19 @@ jobs:
   build:
     name: Input check
     runs-on: ubuntu-latest
+    if: |
+      github.event.label.name != "sync" &&
+      github.event.pull_request.merged == true 
     steps:
       - name: Checking your input
         run: |
           echo "github.event.pull_request.merged           : $MERGED_RAW"
           echo "github.event.pull_request.merged == 'true' : $MERGED_TRUE_STR"
           echo "github.event.pull_request.merged  == true  : $MERGED_TRUE_BOOL"
-          echo "github.event.pull_request.description           : $MSG_RAW"
+
 
         env:
           MERGED_RAW: ${{ github.event.pull_request.merged }}
           MERGED_TRUE_STR: ${{ github.event.pull_request.merged == 'true' }}
           MERGED_TRUE_BOOL: ${{ github.event.pull_request.merged == true }}
-          MSG_RAW: ${{ github.event.pull_request.description }}
+
