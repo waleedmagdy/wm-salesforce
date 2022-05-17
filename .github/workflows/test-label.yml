@@ -14,13 +14,15 @@ jobs:
       - name: test-label
         shell: bash
         run: |
-          SHA=${{ github.event.label.name }}
+          SHA=${{ github.event.pull_request.labels.name }}
           echo "GITHUB_SHA = ${SHA}"
+        env:
+          label: ${{ github.event.label.name }}
   build:
     name: Input check
     runs-on: ubuntu-latest
     if: |
-      github.event.label.name != 'sync' &&
+      env.label != 'sync' &&
       github.event.pull_request.merged == true 
     steps:
       - name: Checking your input
