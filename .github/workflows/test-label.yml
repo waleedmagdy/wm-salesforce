@@ -7,7 +7,7 @@ on:
   #     - QA
   
   pull_request:
-    types: [ labeled, unlabeled, closed ]
+    types: [ labeled, unlabeled ]
 
   workflow_dispatch:
 env:
@@ -29,7 +29,7 @@ jobs:
           echo "GITHUB_SHA = ${SHA}"
 
   sync-master:
-    # if: github.ref_name == 'master' && github.event.label.name != 'sync'
+    if: github.event.label.name != 'nosync'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -40,33 +40,33 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
           CONFIG_PATH: .github/sync-master.yml
           # PR_LABELS: |
-          #   automerge
-  sync-UAT:
-    if: github.ref_name == 'UAT' && github.event.label.name != 'sync'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@master
-      - name: Run GitHub File Sync
-        uses: BetaHuhn/repo-file-sync-action@v1
-        with:
-          GH_PAT: ${{ secrets.GH_PAT }}
-          CONFIG_PATH: .github/sync-UAT.yml
-          PR_LABELS: |
-            automerge
-  sync-QA:
-    if: github.ref_name == 'QA' && github.event.label.name != 'sync'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@master
-      - name: Run GitHub File Sync
-        uses: BetaHuhn/repo-file-sync-action@v1
-        with:
-          GH_PAT: ${{ secrets.GH_PAT }}
-          CONFIG_PATH: .github/sync-QA.yml
-          PR_LABELS: |
-            automerge
+          #    automerge
+  # sync-UAT:
+  #   if: github.ref_name == 'UAT' && github.event.label.name != 'sync'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@master
+  #     - name: Run GitHub File Sync
+  #       uses: BetaHuhn/repo-file-sync-action@v1
+  #       with:
+  #         GH_PAT: ${{ secrets.GH_PAT }}
+  #         CONFIG_PATH: .github/sync-UAT.yml
+  #         PR_LABELS: |
+  #           automerge
+  # sync-QA:
+  #   if: github.ref_name == 'QA' && github.event.label.name != 'sync'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@master
+  #     - name: Run GitHub File Sync
+  #       uses: BetaHuhn/repo-file-sync-action@v1
+  #       with:
+  #         GH_PAT: ${{ secrets.GH_PAT }}
+  #         CONFIG_PATH: .github/sync-QA.yml
+  #         PR_LABELS: |
+  #           automerge
 
 
 # name: test-label
