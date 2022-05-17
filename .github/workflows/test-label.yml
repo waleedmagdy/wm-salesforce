@@ -1,40 +1,111 @@
-name: test-label
-
-on: 
+name: Sync Files
+on:
+  # push:
+  #   branches:
+  #     - master
+  #     - UAT
+  #     - QA
+  
   pull_request:
-    types:
-      - "labeled"
-      - "closed"
+    types: [ labeled, unlabeled, closed ]
 
+  workflow_dispatch:
+env:
+  BRANCH: ${{ github.ref_name }}
+  # LABEL: ${{ github.event.label.name }}
 
 jobs:
-  test-pr-label:
+  PR-Label:
+    # if: |
+    #   github.event.label.name != 'sync' && 
+    #   github.event.pull_request.base.ref == 'master'
+      
     runs-on: ubuntu-latest
     steps:
-      - name: test-label
+      - name: Shell GIT env
         shell: bash
         run: |
-          SHA=${{ github.event.pull_request.*.name }}
+          SHA=${{ github.event.label.name }}
           echo "GITHUB_SHA = ${SHA}"
-          printf '%s\n' "${SHA[@]}"
-        env:
-          label: ${{ github.event.label.name }}
-  build:
-    name: Input check
+
+  sync-master:
+    # if: github.ref_name == 'master' && github.event.label.name != 'sync'
     runs-on: ubuntu-latest
-    if: |
-      github.event.label.name != 'sync' &&
-      github.event.pull_request.merged == true 
     steps:
-      - name: Checking your input
-        run: |
-          echo "github.event.pull_request.merged.title           : $MERGED_RAW"
-          echo "github.event.pull_request.merged == 'true' : $MERGED_TRUE_STR"
-          echo "github.event.pull_request.merged  == true  : $MERGED_TRUE_BOOL"
+      - name: Checkout Repository
+        uses: actions/checkout@master
+      - name: Run GitHub File Sync
+        uses: BetaHuhn/repo-file-sync-action@v1
+        with:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          CONFIG_PATH: .github/sync-master.yml
+          PR_LABELS: |
+            automerge
+  sync-UAT:
+    if: github.ref_name == 'UAT' && github.event.label.name != 'sync'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+      - name: Run GitHub File Sync
+        uses: BetaHuhn/repo-file-sync-action@v1
+        with:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          CONFIG_PATH: .github/sync-UAT.yml
+          PR_LABELS: |
+            automerge
+  sync-QA:
+    if: github.ref_name == 'QA' && github.event.label.name != 'sync'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+      - name: Run GitHub File Sync
+        uses: BetaHuhn/repo-file-sync-action@v1
+        with:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          CONFIG_PATH: .github/sync-QA.yml
+          PR_LABELS: |
+            automerge
 
 
-        env:
-          MERGED_RAW: ${{ github.event.pull_request.merged }}
-          MERGED_TRUE_STR: ${{ github.event.pull_request.merged == 'true' }}
-          MERGED_TRUE_BOOL: ${{ github.event.pull_request.merged == true }}
+# name: test-label
+
+# on: 
+#   pull_request:
+#     types:
+#       - "labeled"
+#       - "closed"
+
+
+# jobs:
+#   test-pr-label:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: test-label
+#         shell: bash
+#         run: |
+#           SHA=${{ github.event.pull_request.*.name }}
+#           echo "GITHUB_SHA = ${SHA}"
+#           printf '%s\n' "${SHA[@]}"
+#         env:
+#           label: ${{ github.event.label.name }}
+#   build:
+#     name: Input check
+#     runs-on: ubuntu-latest
+#     if: |
+#       github.event.label.name != 'sync' &&
+#       github.event.pull_request.merged == true 
+#     steps:
+#       - name: Checking your input
+#         run: |
+#           echo "github.event.pull_request.merged.title           : $MERGED_RAW"
+#           echo "github.event.pull_request.merged == 'true' : $MERGED_TRUE_STR"
+#           echo "github.event.pull_request.merged  == true  : $MERGED_TRUE_BOOL"
+
+
+#         env:
+#           MERGED_RAW: ${{ github.event.pull_request.merged }}
+#           MERGED_TRUE_STR: ${{ github.event.pull_request.merged == 'true' }}
+#           MERGED_TRUE_BOOL: ${{ github.event.pull_request.merged == true }}
 
