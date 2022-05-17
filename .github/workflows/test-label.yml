@@ -22,7 +22,7 @@ jobs:
     name: Input check
     runs-on: ubuntu-latest
     if: |
-      env.label != 'sync' &&
+      github.event.label.name != 'sync' &&
       github.event.pull_request.merged == true 
     steps:
       - name: Checking your input
