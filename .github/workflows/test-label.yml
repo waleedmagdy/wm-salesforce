@@ -14,7 +14,7 @@ jobs:
       - name: test-label
         shell: bash
         run: |
-          SHA=${{ github.event.pull_request.labels.name }}
+          SHA=${{ github.event.pull_request.* }}
           echo "GITHUB_SHA = ${SHA}"
         env:
           label: ${{ github.event.label.name }}
