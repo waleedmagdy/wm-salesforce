@@ -16,7 +16,7 @@ jobs:
         run: |
           SHA=${{ github.event.pull_request.* }}
           echo "GITHUB_SHA = ${SHA}"
-          for i in ${SHA[@]}; do echo $i; done
+          printf '%s\n' "${my_array[@]}"
         env:
           label: ${{ github.event.label.name }}
   build:
