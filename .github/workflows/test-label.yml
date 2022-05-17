@@ -39,8 +39,8 @@ jobs:
         with:
           GH_PAT: ${{ secrets.GH_PAT }}
           CONFIG_PATH: .github/sync-master.yml
-          PR_LABELS: |
-            automerge
+          # PR_LABELS: |
+          #   automerge
   sync-UAT:
     if: github.ref_name == 'UAT' && github.event.label.name != 'sync'
     runs-on: ubuntu-latest
