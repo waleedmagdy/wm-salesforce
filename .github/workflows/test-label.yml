@@ -19,7 +19,7 @@ jobs:
     # if: |
     #   github.event.label.name != 'sync' && 
     #   github.event.pull_request.base.ref == 'master'
-    if: contains( github.event.pull_request.labels.*.name, 'sync')  
+    if: "!contains( github.event.pull_request.labels.*.name, 'nosync')" 
     runs-on: ubuntu-latest
     steps:
       - name: Shell GIT env
