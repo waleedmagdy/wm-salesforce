@@ -7,7 +7,7 @@ on:
   #     - QA
   
   pull_request:
-    types: [ labeled, unlabeled, opened, closed ]
+    types: [ closed ]
 
   workflow_dispatch:
 env:
@@ -19,26 +19,26 @@ jobs:
     # if: |
     #   github.event.label.name != 'sync' && 
     #   github.event.pull_request.base.ref == 'master'
-      
+    if: contains( github.event.pull_request.labels.*.name, 'sync')  
     runs-on: ubuntu-latest
     steps:
       - name: Shell GIT env
         shell: bash
         run: |
-          SHA=${{ github.event.pull_request.labels[].name }}
-          echo "GITHUB_SHA = ${SHA}"
-
-  sync-master:
-    if: github.event.label.name != 'nosync'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@master
-      - name: Run GitHub File Sync
-        uses: BetaHuhn/repo-file-sync-action@v1
-        with:
-          GH_PAT: ${{ secrets.GH_PAT }}
-          CONFIG_PATH: .github/sync-master.yml
+          echo "Hello World"
+          
+# SHA=${{ github.event.pull_request.labels[] }}
+  # sync-master:
+  #   if: github.event.label.name != 'nosync'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@master
+  #     - name: Run GitHub File Sync
+  #       uses: BetaHuhn/repo-file-sync-action@v1
+  #       with:
+  #         GH_PAT: ${{ secrets.GH_PAT }}
+  #         CONFIG_PATH: .github/sync-master.yml
           # PR_LABELS: |
           #    automerge
   # sync-UAT:
