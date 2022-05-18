@@ -25,7 +25,7 @@ jobs:
       - name: Shell GIT env
         shell: bash
         run: |
-          SHA=${{ github.event.pull_request.labels[0] }}
+          SHA=${{ github.event.pull_request.labels[1] }}
           echo "GITHUB_SHA = ${SHA}"
 
   sync-master:
